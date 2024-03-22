@@ -17,18 +17,21 @@ export default {
       
     },
     methods: {
-      async ser() {
+      async updateUser() {
         const requestOptions = {
           method: "POST",
           headers: { 
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ firstName, lastName, email })
+          body: JSON.stringify({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+          })
         };
-        //  FIX AFTER BACKEND FUNCTIONS ARE FINISHED
-        //const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/updateUser`, requestOptions);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_HOST}/be/updateUser`, requestOptions);
         //const data = await response.json();
-       // console.log('<<<<< data = ', data);
+        console.log('<<<<< data = ', response);
       }
     }
   }
@@ -72,7 +75,7 @@ export default {
                    </div>
 
                    <div class="container-login100-form-btn">
-                       <span class="login100-form-btn" @click="authenticate">
+                       <span class="login100-form-btn" @click="updateUser">
                            Update
                        </span>
                    </div>
