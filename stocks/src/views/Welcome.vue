@@ -32,7 +32,7 @@ export default {
       this.showDialog = close
     },
     handleBalanceEvent(balance) {
-      this.balance = balance;
+      this.balance = balance
     },
 
     async loadData() {
@@ -65,7 +65,8 @@ export default {
         }
         const response = await fetch('be/logOut', requestOptions)
         if (response.status === 200) {
-          this.$router.push('/')
+          console.log('Response 200 returned')
+          //this.$router.push('/')
         } else {
           alert('Error logging out!')
         }
@@ -82,18 +83,20 @@ export default {
 </script>
 
 <template>
-
   <div class="user-info">
     <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
     <p>Email: {{ email }}</p>
-    <p>Current Balance: {{ $filters.currency(balance)  }}</p>
+    <p>Current Balance: {{ $filters.currency(balance) }}</p>
   </div>
-  
 
   <div class="container-login100-form-btn">
-
     <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-    <Stocks v-if="showDialog" @child-event="handleChildEvent" @balance-event="handleBalanceEvent" :balance="balance"></Stocks>
+    <Stocks
+      v-if="showDialog"
+      @child-event="handleChildEvent"
+      @balance-event="handleBalanceEvent"
+      :balance="balance"
+    ></Stocks>
 
     <router-link to="/update">
       <button class="login100-form-btn">Update User</button>

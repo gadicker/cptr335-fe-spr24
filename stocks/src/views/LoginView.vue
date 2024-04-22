@@ -17,6 +17,7 @@ export default {
       }
       const response = await fetch('/be/authenticate', requestOptions)
       const data = await response.json()
+      console.log('<<<< data =', data)
       if (data.status === 200) {
         this.$router.push('/welcome')
       }
