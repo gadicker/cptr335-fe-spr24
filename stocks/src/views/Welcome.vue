@@ -34,6 +34,9 @@ export default {
     handleBalanceEvent(balance) {
       this.balance = balance
     },
+    handleNewPortfolio(portfolio) {
+      this.portfolio = portfolio
+    },
 
     async loadData() {
       try {
@@ -94,6 +97,7 @@ export default {
     <Stocks
       v-if="showDialog"
       @child-event="handleChildEvent"
+      @new-portfolio="handleNewPortfolio"
       @balance-event="handleBalanceEvent"
       :balance="balance"
     ></Stocks>
