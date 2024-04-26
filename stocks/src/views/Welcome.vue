@@ -16,11 +16,14 @@ export default {
   },
   data() {
     return {
+      columns: ['Symbol', 'Name', 'Quant', 'Price', 'Value'],
       firstName: '',
       lastName: '',
       email: '',
-      balance: '',
-      portfolio: '',
+      cashBalance: 0,
+      stockValue: 0,
+      balance: 0,
+      portfolio: [],
       showDialog: false
     }
   },
@@ -32,10 +35,10 @@ export default {
       this.showDialog = close
     },
     handleBalanceEvent(balance) {
-      this.balance = balance
+      this.cashBalance = balance
     },
     handleNewPortfolio(portfolio) {
-      this.portfolio = portfolio
+      this.loadArray(portfolio)
     },
 
     async loadData() {
@@ -51,11 +54,41 @@ export default {
         this.firstName = userData.firstName
         this.lastName = userData.lastName
         this.email = userData.email
-        this.balance = userData.balance
-        this.portfolio = userData.portfolio
+        this.cashBalance = userData.balance
+        this.loadArray(userData.portfolio)
       } catch (error) {
         console.error('Error loading user data:', error)
       }
+    },
+
+    async sellStock(symbol) {
+      console.log('<<<<< symbol = ', symbol)
+    },
+
+    async loadArray(portfolio) {
+      this.stockValue = 0
+      this.balance = 0
+      this.portfolio = portfolio
+      this.portfolio.map(async (stock) => {
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+        const response = await fetch(`/be/stock/${stock.symbol}`, requestOptions)
+        const stockData = await response.json()
+        this.portfolio
+          .filter((s) => s.symbol == stock.symbol)
+          .forEach((st) => {
+            st.price = stockData.price
+            st.name = stockData.name
+            st.value = stockData.price * stock.quantity
+            this.stockValue += st.value
+            this.balance += st.value
+          })
+      })
+      this.balance += this.cashBalance
     },
 
     async logOut() {
@@ -89,7 +122,9 @@ export default {
   <div class="user-info">
     <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
     <p>Email: {{ email }}</p>
-    <p>Current Balance: {{ $filters.currency(balance) }}</p>
+    <p>Cash Balance: {{ $filters.currency(cashBalance) }}</p>
+    <p>Stock Value: {{ $filters.currency(stockValue) }}</p>
+    <p>Net Worth: {{ $filters.currency(balance) }}</p>
   </div>
 
   <div class="container-login100-form-btn">
@@ -99,7 +134,7 @@ export default {
       @child-event="handleChildEvent"
       @new-portfolio="handleNewPortfolio"
       @balance-event="handleBalanceEvent"
-      :balance="balance"
+      :cashBalance="balance"
     ></Stocks>
 
     <router-link to="/update">
@@ -115,8 +150,24 @@ export default {
 
   <div class="portfolio-info">
     <h2>Portfolio</h2>
-    <p>{{ portfolio }}</p>
-    <p>Luchocoins</p>
+    <table>
+      <thead>
+        <tr>
+          <th v-for="column in columns">{{ column }}</th>
+        </tr>
+      </thead>
+      <tbody v-for="stock in portfolio">
+        <tr>
+          <td @click="sellStock(stock.symbol)">
+            <u>{{ stock.symbol }}</u>
+          </td>
+          <td>{{ stock.name }}</td>
+          <td>{{ stock.quantity }}</td>
+          <td>{{ $filters.currency(stock.price, '$', 5) }}</td>
+          <td>{{ $filters.currency(stock.value) }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
