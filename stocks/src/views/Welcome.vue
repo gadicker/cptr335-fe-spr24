@@ -119,14 +119,31 @@ export default {
 
   <div class="user-info">
     <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
-    <p>Email: {{ email }}</p>
-    <p>Cash Balance: {{ $filters.currency(cashBalance)  }}</p>
-    <p>Stock Value: {{ $filters.currency(stockValue)  }}</p>
-    <p>Net Worth: {{ $filters.currency(balance)  }}</p>
+    <table>
+      <tbody>
+        <tr>
+          <th class="user-info-head">Email: </th>
+          <td>{{ email }}</td>
+        </tr>
+        <tr>
+          <th class="user-info-head">Cash Balance: </th>
+          <td class="numberz">{{ $filters.currency(cashBalance)  }}</td>
+        </tr>
+        <tr>
+          <th class="user-info-head">Stock Value: </th>
+          <td class="numberz">{{ $filters.currency(stockValue)  }}</td>
+        </tr>
+        <tr>
+          <th class="user-info-head">Net Worth: </th>
+          <td class="numberz">{{ $filters.currency(balance)  }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   
 
   <div class="container-login100-form-btn">
+    <aside>
 
     <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
     <Stocks v-if="showDialog" @child-event="handleChildEvent" @new-portfolio="handleNewPortfolio" @balance-event="handleBalanceEvent" :cashBalance="balance"></Stocks>
@@ -140,6 +157,7 @@ export default {
     </router-link>
 
     <button class="login100-form-btn" @click="logOut()">Log Out</button>
+    </aside>
   </div>
 
   <div class="portfolio-info">
@@ -314,7 +332,6 @@ li {
 .user-info {
   font-family: Poppins-Regular;
   padding: 25px;
-  align-items: center;
 }
 
 .portfolio-info {
@@ -335,4 +352,11 @@ td {
 .numberz {
   text-align: right;
 }
+
+.user-info-head {
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+}
+
 </style>
