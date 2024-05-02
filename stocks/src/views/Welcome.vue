@@ -142,7 +142,7 @@ export default {
   </div>
   
 
-  <div class="container-login100-form-btn">
+  <div class="welcome-container-login100-form-btn">
     <aside>
 
       <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
@@ -229,6 +229,7 @@ html {
   background: linear-gradient(-135deg, #c850c0, #4158d0);
 }
 
+
 /*---------------------------------------------*/
 a {
   font-family: Poppins-Regular;
@@ -293,7 +294,7 @@ li {
 /*//////////////////////////////////////////////////////////////////
 [ Button ]*/
 
-.container-login100-form-btn {
+.welcome-container-login100-form-btn {
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
