@@ -145,18 +145,18 @@ export default {
   <div class="container-login100-form-btn">
     <aside>
 
-    <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-    <Stocks v-if="showDialog" @child-event="handleChildEvent" @new-portfolio="handleNewPortfolio" @balance-event="handleBalanceEvent" :cashBalance="balance"></Stocks>
+      <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
+      <Stocks v-if="showDialog" @child-event="handleChildEvent" @new-portfolio="handleNewPortfolio" @balance-event="handleBalanceEvent" :cashBalance="balance"></Stocks>
 
-    <router-link to="/update">
-      <button class="login100-form-btn">Update User</button>
-    </router-link>
+      <router-link to="/update">
+        <button class="login100-form-btn">Update User</button>
+      </router-link>
 
-    <router-link to="#">
-      <button class="login100-form-btn">Change Password</button>
-    </router-link>
+      <router-link to="#">
+        <button class="login100-form-btn">Change Password</button>
+      </router-link>
 
-    <button class="login100-form-btn" @click="logOut()">Log Out</button>
+      <button class="login100-form-btn" @click="logOut()">Log Out</button>
     </aside>
   </div>
 
@@ -178,6 +178,10 @@ export default {
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="empty-box">
+    <aside>
+    </aside>
   </div>
 </template>
 
@@ -218,6 +222,11 @@ body,
 html {
   height: 100%;
   font-family: Poppins-Regular, sans-serif;
+  background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
 }
 
 /*---------------------------------------------*/
@@ -292,8 +301,12 @@ li {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
-  justify-content: right;
-  padding-top: 20px;
+  justify-content: center;
+  padding: 20px;
+  background: #fff;
+  border-top: 3px solid #333333;
+  border-right: 3px solid #333333;
+  border-top-right-radius: 20px;
 }
 
 .login100-form-btn {
@@ -332,12 +345,20 @@ li {
 .user-info {
   font-family: Poppins-Regular;
   padding: 25px;
+  background: #fff;
+  border-left: 3px solid #333333;
+  border-top: 3px solid #333333;
+  border-top-left-radius: 20px;
 }
 
 .portfolio-info {
   font-family: Poppins-Regular;
   padding: 25px;
   align-items: center;
+  background: #fff;
+  border-left:3px solid #333333;
+  border-bottom: 3px solid #333333;
+  border-bottom-left-radius: 20px;
 }
 
 .col-head {
@@ -357,6 +378,13 @@ td {
   font-weight: bold;
   text-align: left;
   padding: 10px;
+}
+
+.empty-box {
+  background: #fff;
+  border-right: 3px solid #333333;
+  border-bottom: 3px solid #333333;
+  border-bottom-right-radius: 20px;
 }
 
 </style>
