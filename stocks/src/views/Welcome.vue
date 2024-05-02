@@ -101,8 +101,7 @@ export default {
         }
         const response = await fetch('be/logOut', requestOptions)
         if (response.status === 200) {
-          console.log('Response 200 returned')
-          //this.$router.push('/')
+          this.$router.push('/')
         } else {
           alert('Error logging out!')
         }
@@ -121,31 +120,49 @@ export default {
 <template>
   <div class="user-info">
     <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
-    <p>Email: {{ email }}</p>
-    <p>Cash Balance: {{ $filters.currency(cashBalance) }}</p>
-    <p>Stock Value: {{ $filters.currency(stockValue) }}</p>
-    <p>Net Worth: {{ $filters.currency(balance) }}</p>
+    <table>
+      <tbody>
+        <tr>
+          <th class="user-info-head">Email:</th>
+          <td>{{ email }}</td>
+        </tr>
+        <tr>
+          <th class="user-info-head">Cash Balance:</th>
+          <td class="numberz">{{ $filters.currency(cashBalance) }}</td>
+        </tr>
+        <tr>
+          <th class="user-info-head">Stock Value:</th>
+          <td class="numberz">{{ $filters.currency(stockValue) }}</td>
+        </tr>
+        <tr>
+          <th class="user-info-head">Net Worth:</th>
+          <td class="numberz">{{ $filters.currency(balance) }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="container-login100-form-btn">
-    <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-    <Stocks
-      v-if="showDialog"
-      @child-event="handleChildEvent"
-      @new-portfolio="handleNewPortfolio"
-      @balance-event="handleBalanceEvent"
-      :cashBalance="balance"
-    ></Stocks>
+    <aside>
+      <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
+      <Stocks
+        v-if="showDialog"
+        @child-event="handleChildEvent"
+        @new-portfolio="handleNewPortfolio"
+        @balance-event="handleBalanceEvent"
+        :cashBalance="balance"
+      ></Stocks>
 
-    <router-link to="/update">
-      <button class="login100-form-btn">Update User</button>
-    </router-link>
+      <router-link to="/update">
+        <button class="login100-form-btn">Update User</button>
+      </router-link>
 
-    <router-link to="#">
-      <button class="login100-form-btn">Change Password</button>
-    </router-link>
+      <router-link to="#">
+        <button class="login100-form-btn">Change Password</button>
+      </router-link>
 
-    <button class="login100-form-btn" @click="logOut()">Log Out</button>
+      <button class="login100-form-btn" @click="logOut()">Log Out</button>
+    </aside>
   </div>
 
   <div class="portfolio-info">
@@ -153,18 +170,18 @@ export default {
     <table>
       <thead>
         <tr>
-          <th v-for="column in columns">{{ column }}</th>
+          <th class="col-head" v-for="column in columns">{{ column }}</th>
         </tr>
       </thead>
       <tbody v-for="stock in portfolio">
-        <tr>
+        <tr class="table-info">
           <td @click="sellStock(stock.symbol)">
             <u>{{ stock.symbol }}</u>
           </td>
           <td>{{ stock.name }}</td>
-          <td>{{ stock.quantity }}</td>
-          <td>{{ $filters.currency(stock.price, '$', 5) }}</td>
-          <td>{{ $filters.currency(stock.value) }}</td>
+          <td class="numberz">{{ stock.quantity }}</td>
+          <td class="numberz">{{ $filters.currency(stock.price, '$', 5) }}</td>
+          <td class="numberz">{{ $filters.currency(stock.value) }}</td>
         </tr>
       </tbody>
     </table>
@@ -234,7 +251,9 @@ a:hover {
 
 /*---------------------------------------------*/
 h1,
-h2,
+h2 {
+  font-weight: bold;
+}
 h3,
 h4,
 h5,
@@ -320,12 +339,30 @@ li {
 .user-info {
   font-family: Poppins-Regular;
   padding: 25px;
-  align-items: center;
 }
 
 .portfolio-info {
   font-family: Poppins-Regular;
   padding: 25px;
   align-items: center;
+}
+
+.col-head {
+  font-weight: bold;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+}
+
+.numberz {
+  text-align: right;
+}
+
+.user-info-head {
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
 }
 </style>
