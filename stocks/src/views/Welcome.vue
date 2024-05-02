@@ -68,10 +68,10 @@ export default {
           "Content-Type": "application/json",
         }
       };
-      response = await fetch(`/be/stock/sell/${symbol} `, requestOptions);
+      const response = await fetch(`/be/stock/sell/${symbol} `, requestOptions);
       const results = await response.json();
-      handleBalanceEvent(results.newBalance);
-      handleNewPortfolio(results.newPortfolio);
+      this.handleBalanceEvent(results.newBalance);
+      this.handleNewPortfolio(results.newPortfolio);
     },
     
     async loadArray(portfolio) {
