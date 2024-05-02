@@ -154,7 +154,6 @@ export default {
 
           <div class="container-login100-form-btn">
             <button type="submit" class="login100-form-btn">Update</button>
-            <!-- <span class="login100-form-btn" @click="updateUser"> Update </span> -->
           </div>
 
           <RouterLink to="/welcome">
