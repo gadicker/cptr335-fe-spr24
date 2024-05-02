@@ -151,7 +151,7 @@ export default {
     </table>
   </div>
 
-  <div class="container-login100-form-btn">
+  <div class="welcome-container-login100-form-btn">
     <aside>
       <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
       <Stocks
@@ -195,6 +195,10 @@ export default {
       </tbody>
     </table>
   </div>
+  <div class="empty-box">
+    <aside>
+    </aside>
+  </div>
 </template>
 
 <style>
@@ -234,7 +238,13 @@ body,
 html {
   height: 100%;
   font-family: Poppins-Regular, sans-serif;
+  background: #9053c7;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
 }
+
 
 /*---------------------------------------------*/
 a {
@@ -300,7 +310,7 @@ li {
 /*//////////////////////////////////////////////////////////////////
 [ Button ]*/
 
-.container-login100-form-btn {
+.welcome-container-login100-form-btn {
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -308,8 +318,12 @@ li {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
-  justify-content: right;
-  padding-top: 20px;
+  justify-content: center;
+  padding: 20px;
+  background: #fff;
+  border-top: 3px solid #333333;
+  border-right: 3px solid #333333;
+  border-top-right-radius: 20px;
 }
 
 .login100-form-btn {
@@ -348,12 +362,20 @@ li {
 .user-info {
   font-family: Poppins-Regular;
   padding: 25px;
+  background: #fff;
+  border-left: 3px solid #333333;
+  border-top: 3px solid #333333;
+  border-top-left-radius: 20px;
 }
 
 .portfolio-info {
   font-family: Poppins-Regular;
   padding: 25px;
   align-items: center;
+  background: #fff;
+  border-left:3px solid #333333;
+  border-bottom: 3px solid #333333;
+  border-bottom-left-radius: 20px;
 }
 
 .col-head {
@@ -374,4 +396,12 @@ td {
   text-align: left;
   padding: 10px;
 }
+
+.empty-box {
+  background: #fff;
+  border-right: 3px solid #333333;
+  border-bottom: 3px solid #333333;
+  border-bottom-right-radius: 20px;
+}
+
 </style>
