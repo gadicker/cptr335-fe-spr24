@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      columns: ["Symbol", "Name", "Quant", "Price", "Value"],
+      columns: ['Symbol', 'Name', 'Quant', 'Price', 'Value'],
       firstName: '',
       lastName: '',
       email: '',
@@ -35,10 +35,10 @@ export default {
       this.showDialog = close
     },
     handleBalanceEvent(balance) {
-      this.cashBalance = balance;
+      this.cashBalance = balance
     },
     handleNewPortfolio(portfolio) {
-      this.loadArray(portfolio);
+      this.loadArray(portfolio)
     },
 
     async loadData() {
@@ -62,31 +62,33 @@ export default {
     },
 
     async sellStock(symbol) {
-      console.log('<<<<< symbol = ', symbol);
+      console.log('<<<<< symbol = ', symbol)
     },
-    
+
     async loadArray(portfolio) {
-      this.stockValue = 0;
-      this.balance = 0;
-      this.portfolio = portfolio;
-      this.portfolio.map(async stock => {
+      this.stockValue = 0
+      this.balance = 0
+      this.portfolio = portfolio
+      this.portfolio.map(async (stock) => {
         const requestOptions = {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           }
         }
-        const response = await fetch(`/be/stock/${stock.symbol}`, requestOptions);
-        const stockData = await response.json();
-        this.portfolio.filter(s => s.symbol == stock.symbol).forEach(st => {
-          st.price = stockData.price;
-          st.name = stockData.name;
-          st.value = stockData.price * stock.quantity;
-          this.stockValue += st.value;
-          this.balance += st.value;
-        })
-      });
-      this.balance += this.cashBalance;
+        const response = await fetch(`/be/stock/${stock.symbol}`, requestOptions)
+        const stockData = await response.json()
+        this.portfolio
+          .filter((s) => s.symbol == stock.symbol)
+          .forEach((st) => {
+            st.price = stockData.price
+            st.name = stockData.name
+            st.value = stockData.price * stock.quantity
+            this.stockValue += st.value
+            this.balance += st.value
+          })
+      })
+      this.balance += this.cashBalance
     },
 
     async logOut() {
@@ -116,47 +118,50 @@ export default {
 </script>
 
 <template>
-
   <div class="user-info">
     <h1>Welcome {{ firstName }} {{ lastName }}!</h1>
     <table>
       <tbody>
         <tr>
-          <th class="user-info-head">Email: </th>
+          <th class="user-info-head">Email:</th>
           <td>{{ email }}</td>
         </tr>
         <tr>
-          <th class="user-info-head">Cash Balance: </th>
-          <td class="numberz">{{ $filters.currency(cashBalance)  }}</td>
+          <th class="user-info-head">Cash Balance:</th>
+          <td class="numberz">{{ $filters.currency(cashBalance) }}</td>
         </tr>
         <tr>
-          <th class="user-info-head">Stock Value: </th>
-          <td class="numberz">{{ $filters.currency(stockValue)  }}</td>
+          <th class="user-info-head">Stock Value:</th>
+          <td class="numberz">{{ $filters.currency(stockValue) }}</td>
         </tr>
         <tr>
-          <th class="user-info-head">Net Worth: </th>
-          <td class="numberz">{{ $filters.currency(balance)  }}</td>
+          <th class="user-info-head">Net Worth:</th>
+          <td class="numberz">{{ $filters.currency(balance) }}</td>
         </tr>
       </tbody>
     </table>
   </div>
-  
 
   <div class="container-login100-form-btn">
     <aside>
+      <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
+      <Stocks
+        v-if="showDialog"
+        @child-event="handleChildEvent"
+        @new-portfolio="handleNewPortfolio"
+        @balance-event="handleBalanceEvent"
+        :cashBalance="balance"
+      ></Stocks>
 
-    <button v-if="!showDialog" @click="openDialog" class="login100-form-btn">Buy Stock</button>
-    <Stocks v-if="showDialog" @child-event="handleChildEvent" @new-portfolio="handleNewPortfolio" @balance-event="handleBalanceEvent" :cashBalance="balance"></Stocks>
+      <router-link to="/update">
+        <button class="login100-form-btn">Update User</button>
+      </router-link>
 
-    <router-link to="/update">
-      <button class="login100-form-btn">Update User</button>
-    </router-link>
+      <router-link to="#">
+        <button class="login100-form-btn">Change Password</button>
+      </router-link>
 
-    <router-link to="#">
-      <button class="login100-form-btn">Change Password</button>
-    </router-link>
-
-    <button class="login100-form-btn" @click="logOut()">Log Out</button>
+      <button class="login100-form-btn" @click="logOut()">Log Out</button>
     </aside>
   </div>
 
@@ -170,11 +175,13 @@ export default {
       </thead>
       <tbody v-for="stock in portfolio">
         <tr class="table-info">
-          <td @click="sellStock(stock.symbol)"><u>{{ stock.symbol }}</u></td>
-          <td>{{ stock.name }}</td> 
+          <td @click="sellStock(stock.symbol)">
+            <u>{{ stock.symbol }}</u>
+          </td>
+          <td>{{ stock.name }}</td>
           <td class="numberz">{{ stock.quantity }}</td>
-          <td class="numberz">{{ $filters.currency(stock.price, '$', 5) }}</td> 
-          <td class="numberz">{{ $filters.currency(stock.value) }}</td> 
+          <td class="numberz">{{ $filters.currency(stock.price, '$', 5) }}</td>
+          <td class="numberz">{{ $filters.currency(stock.value) }}</td>
         </tr>
       </tbody>
     </table>
@@ -358,5 +365,4 @@ td {
   text-align: left;
   padding: 10px;
 }
-
 </style>
