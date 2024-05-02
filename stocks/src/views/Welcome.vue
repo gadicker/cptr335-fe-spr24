@@ -62,7 +62,16 @@ export default {
     },
 
     async sellStock(symbol) {
-      console.log('<<<<< symbol = ', symbol);
+      const requestOptions = {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+        }
+      };
+      response = await fetch(`/be/stock/sell/${symbol} `, requestOptions);
+      const results = await response.json();
+      handleBalanceEvent(results.newBalance);
+      handleNewPortfolio(results.newPortfolio);
     },
     
     async loadArray(portfolio) {
